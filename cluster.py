@@ -4,10 +4,10 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 # Load and prepare the data
 data = pd.read_csv("song_data.csv")
-feats = data[['dance', 'energy', 'loudness',"acousticness","instrumentalness","tempo","valence","key"]].copy()
+feats = data[['danceability', 'energy', 'loudness',"acousticness","instrumentalness","tempo","valence","key"]].copy()
 
 # Define the number of clusters
-k = 3
+k = 6
 
 # Scale the features
 def scale(column):
@@ -54,10 +54,10 @@ feats['cluster'] = assignments
 # Visualize the clusters in 3D (choose three features for plotting)
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(feats['dance'], feats['energy'], feats['valence'], c=feats['cluster'], cmap='viridis')
+ax.scatter(feats['danceability'], feats['acousticness'], feats['loudness'], c=feats['cluster'], cmap='viridis')
 ax.set_xlabel('Dance')
-ax.set_ylabel('Energy')
-ax.set_zlabel('Valence')
+ax.set_ylabel('Acousticness')
+ax.set_zlabel('Loudness')
 plt.show()
 error = 0
 for x in range(100):
