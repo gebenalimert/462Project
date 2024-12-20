@@ -48,3 +48,30 @@ weighted avg       0.88      0.87      0.87       493
     accuracy                           0.86       493
    macro avg       0.85      0.86      0.85       493
 weighted avg       0.86      0.86      0.86       493
+
+
+SVM Linear Soft Margin With 2 Classes: (classes 1 and 2)
+Classification Report:
+              precision    recall  f1-score   support
+
+          -1       0.81      0.86      0.83       152
+           1       0.83      0.78      0.81       141
+
+    accuracy                           0.82       293
+   macro avg       0.82      0.82      0.82       293
+weighted avg       0.82      0.82      0.82       293
+
+Accuracy: 81.91%
+
+SVM Linear Soft Margin With 2 Classes with PCA Feature Selection: (classes 2 and 3)
+Classification Report for 2D Test Set:
+              precision    recall  f1-score   support
+
+          -1       0.84      0.89      0.87       133
+           1       0.93      0.89      0.91       204
+
+    accuracy                           0.89       337
+   macro avg       0.89      0.89      0.89       337
+weighted avg       0.90      0.89      0.89       337
+
+Accuracy on 2D Test Set: 89.32%
