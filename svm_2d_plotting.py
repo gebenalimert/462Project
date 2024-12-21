@@ -1,13 +1,16 @@
+## Linear Soft SVM Implementation with cvxopt library Plotted in 2D
+
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.decomposition import PCA
-from cvxopt import matrix, solvers
+from cvxopt import matrix, solvers          # library for dual optimization
 import matplotlib.pyplot as plt
 
-# Define Linear Soft-Margin SVM
+# Linear Soft-Margin SVM
 class LinearSoftMarginSVM:
     def __init__(self, C=1.0):
         self.C = C  # Regularization parameter
@@ -15,11 +18,11 @@ class LinearSoftMarginSVM:
         self.b = None  # Bias term
 
     def fit(self, X, y):
-        y = y.reshape(-1, 1) * 1.0  # Ensure y is a column vector with values -1 and 1
+        y = y.reshape(-1, 1) * 1.0  # class values are -1 and 1, handled in the data preprocessing
 
         n_samples, n_features = X.shape
 
-        # Compute the Gram matrix (dot products of all feature vectors)
+        # Compute the Gram matrix
         K = np.dot(X, X.T)
 
         # Convert parameters to cvxopt format
@@ -55,13 +58,13 @@ class LinearSoftMarginSVM:
         return np.dot(X, self.w) + self.b
 
     def predict(self, X):
-        return np.sign(self.decision_function(X))
+        return np.sign(self.decision_function(X))    # determining classes based on the sign of the decision function
 
 # Load dataset
 data = pd.read_csv('song_data1.csv')
 
 # Filter the dataset to include only classes 2 and 3
-data = data[data['genre'].isin([2, 3])]
+data = data[data['genre'].isin([2, 3])]                # we picked classes 2 and 3 based on the accuracy results, you can change it
 
 # Features and target
 x = data.drop(columns=['genre'])
@@ -72,13 +75,13 @@ x = x.fillna(x.mean())
 scaler = StandardScaler()
 x_scaled = scaler.fit_transform(x)
 
-# Apply PCA to reduce dimensions to 2
+# Apply PCA to reduce feature dimensions to 2
 pca = PCA(n_components=2)
 x_pca = pca.fit_transform(x_scaled)
 
 # Target
 y = data['genre'].values
-y = np.where(y == 2, -1, 1)  # Convert labels to -1 and 1 for SVM
+y = np.where(y == 2, -1, 1)  # Convert labels to -1 and 1 for SVM       !!! If you will use different classes, you should change this line
 
 # Split dataset
 x_train, x_test, y_train, y_test = train_test_split(x_pca, y, test_size=0.2, random_state=50)

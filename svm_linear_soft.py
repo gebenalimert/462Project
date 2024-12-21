@@ -1,10 +1,14 @@
+## Linear Soft SVM Implementation with cvxopt library
+
+
 import numpy as np
-from cvxopt import matrix, solvers
+from cvxopt import matrix, solvers                       # library for dual optimization
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 import pandas as pd
 
+# Linear Soft-Margin SVM
 class LinearSoftMarginSVM:
     def __init__(self, C=1.0):
         self.C = C  # Regularization parameter
@@ -12,11 +16,11 @@ class LinearSoftMarginSVM:
         self.b = None  # Bias term
 
     def fit(self, X, y):
-        y = y.reshape(-1, 1) * 1.0  # Ensure y is a column vector with values -1 and 1
+        y = y.reshape(-1, 1) * 1.0  # Class values should be -1 and 1
 
         n_samples, n_features = X.shape
 
-        # Compute the Gram matrix (dot products of all feature vectors)
+        # Compute the Gram matrix
         K = np.dot(X, X.T)
 
         # Convert parameters to cvxopt format
@@ -52,12 +56,12 @@ class LinearSoftMarginSVM:
         return np.dot(X, self.w) + self.b
 
     def predict(self, X):
-        return np.sign(self.decision_function(X))
+        return np.sign(self.decision_function(X))           # determining classes based on the sign of the decision function
 
 # Load dataset
 data = pd.read_csv('song_data1.csv')
 
-# Filter the dataset to include only classes 1 and 2
+# Filter the dataset to include only classes 1 and 2, this can be changed to include other classes
 data = data[data['genre'].isin([1, 2])]
 
 # Features and target
@@ -73,7 +77,7 @@ x_scaled = scaler.fit_transform(x)
 y = data['genre'].values
 
 # Convert labels to -1 and 1 for SVM
-y = np.where(y == 1, -1, 1)
+y = np.where(y == 1, -1, 1)              #   !!! if you are using different classes, you need to change this line
 
 # Split dataset
 x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, random_state=50)

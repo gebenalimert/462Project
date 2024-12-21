@@ -1,3 +1,5 @@
+## One vs All SVM Implementation with cvxopt library
+
 import numpy as np
 from cvxopt import matrix, solvers
 from sklearn.preprocessing import StandardScaler
@@ -17,7 +19,7 @@ class LinearSVM:
 
         n_samples, n_features = X.shape
 
-        # Compute the Gram matrix (dot products of all feature vectors)
+        # Compute the Gram matrix
         K = np.dot(X, X.T)
 
         # Convert to cvxopt format
@@ -53,7 +55,7 @@ class LinearSVM:
     def predict(self, X):
         return np.sign(self.decision_function(X))
 
-# One-vs-All Multi-Class Wrapper
+# One-vs-All Multi-Class
 class OneVsAllSVM:
     def __init__(self, C=1.0):
         self.C = C
@@ -70,9 +72,9 @@ class OneVsAllSVM:
             self.models[c] = model
 
     def predict(self, X):
-        # Collect decision function values for each class
+        # decision function values for each class
         decision_values = {c: model.decision_function(X) for c, model in self.models.items()}
-        # Choose the class with the highest decision value
+        # choose the class with the highest decision value
         decision_values = np.array([decision_values[c] for c in self.classes]).T
         return self.classes[np.argmax(decision_values, axis=1)]
 
@@ -97,7 +99,7 @@ x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, 
 # Define range of C values to test
 param_grid = {'C': [0.01, 0.1, 1, 10, 20]}
 
-# Loop over different C values
+# Evaluating for different C values
 for C in param_grid['C']:
     print(f"\nEvaluating SVM with C={C}")
     
