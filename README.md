@@ -6,6 +6,6 @@ To run the code:
 ```
 pip install cvxopt pandas numpy scikit-learn matplotlib seaborn scipy mpl_toolkits
 ````
-3. Make sure you have our dataset file in the directory that you have the code files and will run the code, 'aaa.csv'.
+3. Make sure you have our dataset file in the directory that you have the code files and will run the code, 'song_data.csv'.
 4. All files are independent of each other. You can run any of them.
 5. Some files require changes in the code to test different classes (1, 2, 3). Necessary changes are noted as a command line at those files.
