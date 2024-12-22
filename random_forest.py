@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 import time
 
 # Load dataset
-data = pd.read_csv('aaa.csv')   # reading data from csv file
+data = pd.read_csv('song_data.csv')   # reading data from csv file
 
 # Features and target
 x = data.drop(columns=['genre'])

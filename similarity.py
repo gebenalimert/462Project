@@ -60,7 +60,7 @@ def compute_similarity(vector1, vector2, metric="euclidean"):
 
 
 
-file_path = 'aaa.csv'  # Replace with your CSV file path
+file_path = 'song_data.csv'  # Replace with your CSV file path
 data = pd.read_csv(file_path)
 
 # Features and genre extraction

@@ -60,7 +60,7 @@ class LinearSoftMarginSVM:
         return np.sign(self.decision_function(X))           # determining classes based on the sign of the decision function
 
 # Load dataset
-data = pd.read_csv('aaa.csv')
+data = pd.read_csv('song_data.csv')
 
 # Filter the dataset to include only classes 2 and 3, this can be changed to include other classes
 data = data[data['genre'].isin([2, 3])]
