@@ -8,17 +8,13 @@ import math
 from scipy.constants._codata import val
 data = pd.read_csv('song_data.csv')
 
-feats = data[['dance', 'energy', 'loudness',"acousticness","instrumentalness","key"]].copy()
-
-
+feats = data[['dance', 'energy','loudness',"acousticness","instrumentalness","key"]].copy()
 
 def one_hot_encode(labels, num_classes):
     one_hot_labels = np.zeros((labels.size, num_classes))
     for i, label in enumerate(labels):
         one_hot_labels[i, label - 1] = 1
     return one_hot_labels
-
-
 
 
 def scale(x):
@@ -57,7 +53,6 @@ num_classes = len(np.unique(y))
 
 
 y_train = one_hot_encode(y_train, num_classes)
-
 weights = np.random.randn(x.shape[1], num_classes) * 1
 
 def softmax(z):
@@ -75,7 +70,6 @@ def gradient(weights, x, y):
     #output = y * np.dot(x, w)
 
     y_hat = softmax(np.dot(x, weights))
-
     output = y_hat - y
     grad = np.dot(x.T,output) / x.shape[0]
     #grad = -np.dot(x.T, y * (1 / (1 + np.exp(output)))) / len(x)
@@ -92,20 +86,19 @@ def gradientDescent(x,y,weights,maxIter,learningRate):
 
         # Compute gradient
         grad = gradient(weights,x,y)
-
         # Update weights
         weights -= learningRate * grad
         if i % 100 == 0:  # Print loss every 100 iterations
             print(f"Iteration {i}: Loss = {loss:.4f}")
-
+            if (i != 0) and (np.equal(round(lossHistory[i],6),round(lossHistory[i-5],6))):
+                break
     return weights, lossHistory
 
 
-a,b = gradientDescent(x_train,y_train,weights,10000,0.001)
+a,b = gradientDescent(x_train,y_train,weights,100000,0.001)
 def predict(x, a):
     logits = np.dot(x, a)
     probabilities = softmax(logits)
-    print(probabilities)
     return np.argmax(probabilities, axis=1) + 1  # Predicted class
 
 def accuracy(predictions, y_test):
@@ -118,4 +111,22 @@ def accuracy(predictions, y_test):
     return false / predictions.shape[0]
 predictions = predict(x_test, weights)
 print(accuracy(predictions, y_test))
+
+train_predictions = predict(x_train, a)
+train_accuracy = accuracy(train_predictions, np.argmax(y_train, axis=1) + 1)
+print("Training Accuracy:", train_accuracy)
+
+test_predictions = predict(x_test, a)
+test_accuracy = accuracy(test_predictions, y_test)
+print("Test Accuracy:", test_accuracy)
+
+train_loss = crossEntropyLoss(x_train, y_train, a)
+test_loss = crossEntropyLoss(x_test, one_hot_encode(y_test, num_classes), a)
+print("Training Loss:", train_loss)
+print("Test Loss:", test_loss)
+
+if train_accuracy > test_accuracy + 0.1:  # Significant drop in test accuracy
+    print("The model is likely overfitting.")
+else:
+    print("The model does not appear to be overfitting.")
 
