@@ -7,9 +7,10 @@ from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSe
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, accuracy_score
+import time 
 
 # Load dataset
-data = pd.read_csv('song_data1.csv')
+data = pd.read_csv('aaa.csv')
 
 
 def scale(x):
@@ -56,8 +57,11 @@ def train_svm(X_train, y_train, X_test, y_test, kernel='linear'):
     svm = SVC()
 
     # Perform Grid Search with 5-fold cross-validation
+    start_time = time.time()
     grid_search = GridSearchCV(svm, param_grid, cv=5, scoring='accuracy')
     grid_search.fit(X_train, y_train)
+    end_time = time.time()
+    print(f"Training time: {end_time - start_time:.2f}s")
 
     # Best parameters
     print("Best parameters:", grid_search.best_params_)
@@ -87,6 +91,6 @@ linear_svm = train_svm(x_train, y_train, x_test, y_test, kernel='linear')
 rbf_svm = train_svm(x_train, y_train, x_test, y_test, kernel='rbf')
 
 # Train SVM with polynomial kernel
-#poly_svm = train_svm(x_train, y_train, x_test, y_test, kernel='poly')
+poly_svm = train_svm(x_train, y_train, x_test, y_test, kernel='poly')
 
-#sigmoid_svm = train_svm(x_train, y_train, x_test, y_test, kernel='sigmoid')
+sigmoid_svm = train_svm(x_train, y_train, x_test, y_test, kernel='sigmoid')

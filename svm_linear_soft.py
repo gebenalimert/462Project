@@ -60,10 +60,10 @@ class LinearSoftMarginSVM:
         return np.sign(self.decision_function(X))           # determining classes based on the sign of the decision function
 
 # Load dataset
-data = pd.read_csv('song_data1.csv')
+data = pd.read_csv('aaa.csv')
 
-# Filter the dataset to include only classes 1 and 2, this can be changed to include other classes
-data = data[data['genre'].isin([1, 2])]
+# Filter the dataset to include only classes 2 and 3, this can be changed to include other classes
+data = data[data['genre'].isin([2, 3])]
 
 # Features and target
 x = data.drop(columns=['genre'])
@@ -78,7 +78,7 @@ x_scaled = scaler.fit_transform(x)
 y = data['genre'].values
 
 # Convert labels to -1 and 1 for SVM
-y = np.where(y == 1, -1, 1)              #   !!! if you are using different classes, you need to change this line
+y = np.where(y == 2, -1, 1)              #   !!! if you are using different classes, you need to change this line
 
 # Split dataset
 x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, random_state=50)

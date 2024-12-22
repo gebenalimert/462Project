@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 import time
 
 # Load dataset
-data = pd.read_csv('song_data1.csv')   # reading data from csv file
+data = pd.read_csv('aaa.csv')   # reading data from csv file
 
 # Features and target
 x = data.drop(columns=['genre'])
@@ -39,12 +39,10 @@ model.fit(x_train, y_train)
 end_time = time.time()
 y_pred = model.predict(x_test)                   # without parameter optimization
 
-print(f"Training + testing runtime: {end_time - start_time:.2f}s")
+print(f"Training + testing runtime without parameter optimization: {end_time - start_time:.2f}s")
   
 # performance evaluation metrics 
 print(classification_report(y_pred, y_test))  # avg % 87 precision 
-
-
 
 
 
@@ -68,7 +66,6 @@ end_time = time.time()
 
 print(classification_report(y_pred_grid, y_test))                                    # model performance with grid search
 print(f"Training + testing runtime: {end_time - start_time:.2f} seconds")                # training runtime
-
 
 
 
