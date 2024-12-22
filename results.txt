@@ -1,3 +1,5 @@
+Results:
+
 Random Forest:
               precision    recall  f1-score   support
 
@@ -11,7 +13,7 @@ weighted avg       0.85      0.85      0.85       493
 
 GridSearchCV:
 RandomForestClassifier(max_depth=9, max_leaf_nodes=9, n_estimators=50)
-
+RandomForestClassifier(max_depth=6, max_leaf_nodes=9, n_estimators=150) // bi daha çalıştırınca böyle geldi test performansı düşüyo %73 e  (cv=5)
 Seçili Classifierlarla: (pek değişmemiş)
               precision    recall  f1-score   support
 
@@ -75,3 +77,185 @@ Classification Report for 2D Test Set:
 weighted avg       0.90      0.89      0.89       337
 
 Accuracy on 2D Test Set: 89.32%
+
+
+
+Random Forest Last Results:
+Training + testing runtime: 0.48s
+              precision    recall  f1-score   support
+
+           1       0.85      0.87      0.86       172
+           2       0.77      0.84      0.81       101
+           3       0.91      0.86      0.88       220
+
+    accuracy                           0.86       493
+   macro avg       0.84      0.86      0.85       493
+weighted avg       0.86      0.86      0.86       493
+
+RandomForestClassifier(n_estimators=200)
+Time taken for grid search: 459.46s
+              precision    recall  f1-score   support
+
+           1       0.84      0.84      0.84       175
+           2       0.77      0.87      0.82        98
+           3       0.91      0.86      0.88       220
+
+    accuracy                           0.85       493
+   macro avg       0.84      0.86      0.85       493
+weighted avg       0.86      0.85      0.85       493
+
+Training + testing runtime: 1.36 seconds
+RandomForestClassifier(max_depth=9, max_features='log2', n_estimators=200)
+Time taken for random search: 16.01s
+              precision    recall  f1-score   support
+
+           1       0.83      0.82      0.83       178
+           2       0.76      0.88      0.82        95
+           3       0.89      0.85      0.87       220
+
+    accuracy                           0.84       493
+   macro avg       0.83      0.85      0.84       493
+weighted avg       0.85      0.84      0.84       493
+
+Training + testing runtime: 1.24 seconds
+
+
+
+Linear Soft SVM C=1
+Training time: 5.43s
+Classification Report:
+              precision    recall  f1-score   support
+
+          -1       0.81      0.86      0.83       152
+           1       0.83      0.78      0.81       141
+
+    accuracy                           0.82       293
+   macro avg       0.82      0.82      0.82       293
+weighted avg       0.82      0.82      0.82       293
+
+Accuracy: 81.91%
+
+
+Training time: 41.65s for C=0.1
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.65      0.43      0.52       175
+           2       0.65      0.78      0.71       110
+           3       0.67      0.79      0.73       208
+
+    accuracy                           0.66       493
+   macro avg       0.66      0.67      0.65       493
+weighted avg       0.66      0.66      0.65       493
+
+Accuracy: 66.13%
+
+
+Training time: 52.15s for C=1
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.68      0.43      0.53       175
+           2       0.66      0.77      0.71       110
+           3       0.68      0.83      0.75       208
+
+    accuracy                           0.68       493
+   macro avg       0.67      0.68      0.66       493
+weighted avg       0.68      0.68      0.66       493
+
+Accuracy: 67.55%
+
+
+Training time: 49.55s for C=10
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.68      0.43      0.53       175
+           2       0.66      0.77      0.71       110
+           3       0.68      0.83      0.75       208
+
+    accuracy                           0.68       493
+   macro avg       0.67      0.68      0.66       493
+weighted avg       0.68      0.68      0.66       493
+
+Accuracy: 67.55%
+
+Training time: 64.11s for C=20
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.64      0.43      0.52       175
+           2       0.67      0.75      0.70       110
+           3       0.68      0.83      0.75       208
+
+    accuracy                           0.67       493
+   macro avg       0.66      0.67      0.66       493
+weighted avg       0.67      0.67      0.66       493
+
+Accuracy: 66.94%
+
+
+SVM scikit grid (random kötü)
+Training SVM with linear kernel...
+Best parameters: {'C': 0.1, 'kernel': 'linear'}
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.61      0.61      0.61       175
+           2       0.75      0.52      0.61       110
+           3       0.63      0.74      0.68       208
+
+    accuracy                           0.64       493
+   macro avg       0.66      0.62      0.63       493
+weighted avg       0.65      0.64      0.64       493
+
+Accuracy: 0.640973630831643
+
+Training SVM with rbf kernel...
+Best parameters: {'C': 10, 'gamma': 'scale', 'kernel': 'rbf'}
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.75      0.82      0.78       175
+           2       0.74      0.72      0.73       110
+           3       0.82      0.77      0.79       208
+
+    accuracy                           0.77       493
+   macro avg       0.77      0.77      0.77       493
+weighted avg       0.78      0.77      0.77       493
+
+Accuracy: 0.7748478701825557
+
+Training SVM with poly kernel...
+Best parameters: {'C': 20, 'degree': 3, 'gamma': 'auto', 'kernel': 'poly'}
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.72      0.81      0.76       175
+           2       0.69      0.61      0.65       110
+           3       0.78      0.75      0.76       208
+
+    accuracy                           0.74       493
+   macro avg       0.73      0.72      0.72       493
+weighted avg       0.74      0.74      0.73       493
+
+Accuracy: 0.7363083164300203
+
+Training SVM with sigmoid kernel...
+Best parameters: {'C': 0.1, 'gamma': 'scale', 'kernel': 'sigmoid'}
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       0.56      0.63      0.59       175
+           2       0.77      0.49      0.60       110
+           3       0.62      0.67      0.65       208
+
+    accuracy                           0.62       493
+   macro avg       0.65      0.60      0.61       493
+weighted avg       0.63      0.62      0.62       493
+
+Accuracy: 0.6186612576064908

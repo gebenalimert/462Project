@@ -1,14 +1,16 @@
+## SVM Implementation Using Scikit-Learn
+
+
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, accuracy_score
+import time 
 
 # Load dataset
-data = pd.read_csv('song_data1.csv')
-
-feats = data[['dance', 'energy', 'loudness',"acousticness","instrumentalness","key"]].copy()
+data = pd.read_csv('aaa.csv')
 
 
 def scale(x):
@@ -27,7 +29,7 @@ x = x.apply(pd.to_numeric, errors='coerce')
 x = x.fillna(x.mean())
 
 x = scale(x)
-print(x)
+#print(x)
 y = data['genre'].values
 
 # Standardize features
@@ -43,9 +45,9 @@ def train_svm(X_train, y_train, X_test, y_test, kernel='linear'):
     
     # Define parameter grid for hyperparameter tuning
     param_grid = {
-        'C': [0.1, 1, 10, 20, 40],
+        'C': [0.1, 1, 10, 20],
         'gamma': ['scale', 'auto'] if kernel in ['rbf', 'poly', 'sigmoid'] else None,
-        'degree': [2, 3, 4] if kernel == 'poly' else None,
+        'degree': [2, 3, 4], # if kernel == 'poly' else None,
         'kernel': [kernel]
     }
     # Remove None values from param_grid
@@ -55,8 +57,11 @@ def train_svm(X_train, y_train, X_test, y_test, kernel='linear'):
     svm = SVC()
 
     # Perform Grid Search with 5-fold cross-validation
+    start_time = time.time()
     grid_search = GridSearchCV(svm, param_grid, cv=5, scoring='accuracy')
     grid_search.fit(X_train, y_train)
+    end_time = time.time()
+    print(f"Training time: {end_time - start_time:.2f}s")
 
     # Best parameters
     print("Best parameters:", grid_search.best_params_)
@@ -65,8 +70,12 @@ def train_svm(X_train, y_train, X_test, y_test, kernel='linear'):
     # random_search.fit(x_train, y_train)
     # print("Best parameters:", random_search.best_params_)
 
-    # Train the best model
-    best_model = grid_search.best_estimator_
+    # best_model = SVC(kernel=kernel)                  #  C=1.0, degree=3, gamma='scale', kernel='rbf' without grid search
+    # best_model.fit(X_train, y_train)
+
+    # # Train the best model
+    best_model = grid_search.best_estimator_           # grid search model
+    # best_model = random_search.best_estimator_       # random search model (poor performance)
     y_pred = best_model.predict(X_test)
 
     # Evaluate the model
