@@ -10,7 +10,7 @@ from sklearn.metrics import classification_report, accuracy_score
 import time 
 
 # Load dataset
-data = pd.read_csv('aaa.csv')
+data = pd.read_csv('song_data.csv')
 
 
 def scale(x):

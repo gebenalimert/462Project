@@ -80,7 +80,7 @@ class OneVsAllSVM:
         return self.classes[np.argmax(decision_values, axis=1)]
 
 # Load dataset
-data = pd.read_csv('aaa.csv')
+data = pd.read_csv('song_data.csv')
 
 # Features and target
 x = data.drop(columns=['genre'])

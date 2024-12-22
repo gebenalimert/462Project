@@ -122,7 +122,7 @@ def accuracy(predictions, y_test):
 
 
 # Load dataset
-data = pd.read_csv('aaa.csv')
+data = pd.read_csv('song_data.csv')
 
 # Filter the dataset to include only classes 2 and 3
 data = data[data['genre'].isin([1, 2])]
