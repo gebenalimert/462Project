@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 import pandas as pd
+import time
 
 class LinearSVM:
     def __init__(self, C=1.0):
@@ -23,8 +24,8 @@ class LinearSVM:
         K = np.dot(X, X.T)
 
         # Convert to cvxopt format
-        P = matrix(np.outer(y, y) * K)  # Quadratic term
-        q = matrix(-np.ones((n_samples, 1)))  # Linear term
+        Q = matrix(np.outer(y, y) * K)  # Quadratic term
+        p = matrix(-np.ones((n_samples, 1)))  # Linear term
         G = matrix(np.vstack((-np.eye(n_samples), np.eye(n_samples))))  # Inequality constraints
         h = matrix(np.hstack((np.zeros(n_samples), np.ones(n_samples) * self.C)))  # Bounds for alpha
         A = matrix(y.T, (1, n_samples))  # Equality constraint
@@ -32,7 +33,7 @@ class LinearSVM:
 
         # Solve QP problem
         solvers.options['show_progress'] = False  # Suppress solver output
-        solution = solvers.qp(P, q, G, h, A, b)
+        solution = solvers.qp(Q, p, G, h, A, b)
 
         # Extract Lagrange multipliers
         alpha = np.array(solution['x']).flatten()
@@ -97,7 +98,7 @@ y = data['genre'].values
 x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, random_state=50)
 
 # Define range of C values to test
-param_grid = {'C': [0.01, 0.1, 1, 10, 20]}
+param_grid = {'C': [0.1, 1, 10, 20]}
 
 # Evaluating for different C values
 for C in param_grid['C']:
@@ -105,8 +106,10 @@ for C in param_grid['C']:
     
     # Train One-vs-All SVM
     multi_svm = OneVsAllSVM(C=C)
+    start_time = time.time()
     multi_svm.fit(x_train, y_train)
-
+    end_time = time.time()
+    print(f"Training time: {end_time - start_time:.2f}s for C={C}")
     # Make predictions
     y_pred = multi_svm.predict(x_test)
 

@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 import pandas as pd
+import time
 
 # Linear Soft-Margin SVM
 class LinearSoftMarginSVM:
@@ -24,8 +25,8 @@ class LinearSoftMarginSVM:
         K = np.dot(X, X.T)
 
         # Convert parameters to cvxopt format
-        P = matrix(np.outer(y, y) * K)
-        q = matrix(-np.ones((n_samples, 1)))
+        Q = matrix(np.outer(y, y) * K)
+        p = matrix(-np.ones((n_samples, 1)))
         G = matrix(np.vstack((-np.eye(n_samples), np.eye(n_samples))))
         h = matrix(np.hstack((np.zeros(n_samples), np.ones(n_samples) * self.C)))
         A = matrix(y.T, (1, n_samples))
@@ -33,7 +34,7 @@ class LinearSoftMarginSVM:
 
         # Solve QP problem
         solvers.options['show_progress'] = False
-        solution = solvers.qp(P, q, G, h, A, b)
+        solution = solvers.qp(Q, p, G, h, A, b)
 
         # Extract Lagrange multipliers
         alphas = np.array(solution['x']).flatten()
@@ -84,10 +85,14 @@ x_train, x_test, y_train, y_test = train_test_split(x_scaled, y, test_size=0.2, 
 
 # Train the SVM
 svm = LinearSoftMarginSVM(C=1.0)
+start_time = time.time()
 svm.fit(x_train, y_train)
+end_time = time.time()
 
+print(f"Training time: {end_time - start_time:.2f}s")
 # Make predictions
 y_pred = svm.predict(x_test)
+
 
 # Evaluate the model
 print("Classification Report:")
