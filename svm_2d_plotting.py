@@ -26,8 +26,8 @@ class LinearSoftMarginSVM:
         K = np.dot(X, X.T)
 
         # Convert parameters to cvxopt format
-        P = matrix(np.outer(y, y) * K)
-        q = matrix(-np.ones((n_samples, 1)))
+        Q = matrix(np.outer(y, y) * K)
+        p = matrix(-np.ones((n_samples, 1)))
         G = matrix(np.vstack((-np.eye(n_samples), np.eye(n_samples))))
         h = matrix(np.hstack((np.zeros(n_samples), np.ones(n_samples) * self.C)))
         A = matrix(y.T, (1, n_samples))
@@ -35,7 +35,7 @@ class LinearSoftMarginSVM:
 
         # Solve QP problem
         solvers.options['show_progress'] = False
-        solution = solvers.qp(P, q, G, h, A, b)
+        solution = solvers.qp(Q, p, G, h, A, b)
 
         # Extract Lagrange multipliers
         alphas = np.array(solution['x']).flatten()
@@ -109,7 +109,7 @@ Z = Z.reshape(xx.shape)
 
 # Plot the training points
 plt.figure(figsize=(10, 6))
-for label, marker, color in zip([-1, 1], ['o', '^'], ['red', 'blue']):
+for label, marker, color in zip([-1, 1], ['o', 'x'], ['red', 'blue']):
     plt.scatter(x_train[y_train == label][:, 0],
                 x_train[y_train == label][:, 1],
                 marker=marker, color=color, label=f"Class {label}")
